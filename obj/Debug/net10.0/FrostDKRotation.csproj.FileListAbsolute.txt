@@ -1,0 +1,14 @@
+D:\Projects\FrostDKRotation\bin\Debug\net10.0\FrostDKRotation.exe
+D:\Projects\FrostDKRotation\bin\Debug\net10.0\FrostDKRotation.deps.json
+D:\Projects\FrostDKRotation\bin\Debug\net10.0\FrostDKRotation.runtimeconfig.json
+D:\Projects\FrostDKRotation\bin\Debug\net10.0\FrostDKRotation.dll
+D:\Projects\FrostDKRotation\bin\Debug\net10.0\FrostDKRotation.pdb
+D:\Projects\FrostDKRotation\obj\Debug\net10.0\FrostDKRotation.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\FrostDKRotation\obj\Debug\net10.0\FrostDKRotation.AssemblyInfoInputs.cache
+D:\Projects\FrostDKRotation\obj\Debug\net10.0\FrostDKRotation.AssemblyInfo.cs
+D:\Projects\FrostDKRotation\obj\Debug\net10.0\FrostDKRotation.csproj.CoreCompileInputs.cache
+D:\Projects\FrostDKRotation\obj\Debug\net10.0\FrostDKRotation.dll
+D:\Projects\FrostDKRotation\obj\Debug\net10.0\refint\FrostDKRotation.dll
+D:\Projects\FrostDKRotation\obj\Debug\net10.0\FrostDKRotation.pdb
+D:\Projects\FrostDKRotation\obj\Debug\net10.0\FrostDKRotation.genruntimeconfig.cache
+D:\Projects\FrostDKRotation\obj\Debug\net10.0\ref\FrostDKRotation.dll
