@@ -9,32 +9,18 @@ public class PlayerResource
     private const double RuneRechargeTime = 10.0; // seconds
 
 
-    private enum RuneState
-    {
-        Ready,
-        Recharging,
-        Queued
-    }
 
-    private class Rune
-    {
-        public RuneState State { get; set; }
-        public float Timer { get; set; }
 
-        public Rune()
-        {
-            State = RuneState.Ready;
-            Timer = 0.0;
-        }
-    }
+
+    private readonly Rune[] runes = new Rune[MaxRunes];
 
     public int ReadyRunes {
         get
         {
-            readyrunes = 0;
+            int readyrunes = 0;
             for (int i = 0; i < MaxRunes; i++)
             {
-                if (runes[i].State == RuneState.Ready)
+                if (runes[i].State == Rune.RuneState.Ready)
                 {
                     readyrunes++;
                 }
@@ -43,6 +29,7 @@ public class PlayerResource
         }
     }
     public int RunicPower { get; private set; }
+    private static readonly Random rng = new Random();
 
     public PlayerResource()
     {
@@ -60,7 +47,7 @@ public class PlayerResource
         int runescount = 0;
         for (int i = 0; i < MaxRunes; i++)
         {
-            if (runes[i].State == RuneState.Ready)
+            if (runes[i].State == Rune.RuneState.Ready)
                 runescount++;
         }
 
@@ -70,10 +57,10 @@ public class PlayerResource
         int spent = 0;
         for (int i = 0; i < MaxRunes && spent < amount; i++)
         {
-            if (runes[i].State == RuneState.Ready)
+            if (runes[i].State == Rune.RuneState.Ready)
             {
-                runes[i].State = RuneState.Queued;
-                runes[i].Timer = 0.0;
+                runes[i].State = Rune.RuneState.Queued;
+                runes[i].Timer = 0.0f;
                 spent++;
             }
         }
@@ -94,12 +81,12 @@ public class PlayerResource
     {
         for (int i = 0; i < MaxRunes; i++)
         {
-            if (runes[i].State == RuneState.Recharging)
+            if (runes[i].State == Rune.RuneState.Recharging)
             {
                 runes[i].Timer += deltaTime;
                 if (runes[i].Timer >= RuneRechargeTime)
                 {
-                    runes[i].State = RuneState.Ready;
+                    runes[i].State = Rune.RuneState.Ready;
                     runes[i].Timer = 0.0f;
                 }
             }
@@ -111,7 +98,54 @@ public class PlayerResource
     {
         if (deltaTime <= 0.0)
             return;
-    
+
+
+
+        int rechargingCount = 0;
+        for (int i = 0; i < MaxRunes; i++)
+        {
+            if (runes[i].State == Rune.RuneState.Recharging)
+                rechargingCount++;
+        }
+
+
+        if (rechargingCount < 3)
+        {
+            for (int i = 0; i < MaxRunes && rechargingCount < 3; i++)
+            {
+                if (runes[i].State == Rune.RuneState.Queued)
+                {
+                    runes[i].State = Rune.RuneState.Recharging;
+                    runes[i].Timer = 0.0f;
+                    rechargingCount++;
+                }
+            }
+        }
+
+
+        for (int i = 0; i < MaxRunes; i++)
+        {
+            if (runes[i].State == Rune.RuneState.Recharging)
+            {
+                runes[i].Timer += (float)deltaTime;
+                if (runes[i].Timer >= RuneRechargeTime)
+                {
+                    runes[i].State = Rune.RuneState.Ready;
+                    runes[i].Timer = 0.0f;
+                }
+            }
+        }
+    }
+
+    private void RunicPowerSpend(int amount)
+    {
+        if (amount <= 0) return;
+        if (RunicPower < amount) return;
+
+        RunicPower -= amount;
+
+
+
     }
 }
 
