@@ -144,8 +144,52 @@ public class PlayerResource
 
         RunicPower -= amount;
 
+        double pPerRp = 0.018;
 
+        double noProc = 1.0 - Math.Pow(1.0 - pPerRp, amount);
 
+        double procChance = 1.0 - noProc;
+
+        if (rng.NextDouble() < procChance)
+        {
+            RegenerateOneRuneFromProc();
+        }
+    }
+    private void RegenerateOneRuneFromProc()
+    {
+        int RuneSwitch = -1;
+        for (int i = 0; i < MaxRunes; i++)
+        {
+            if (runes[i].State == Rune.RuneState.Queued)
+            {
+                runes[i].State = Rune.RuneState.Ready;
+                runes[i].Timer = 0.0f;
+                RuneSwitch = i;
+                break;
+            }
+        }
+
+        if (RuneSwitch == -1)
+        {   
+            int highestRecharge = 0;
+            int highestIndex = -1;
+            for (int i = 0; i < MaxRunes; i++)
+            {
+                if (runes[i].State == Rune.RuneState.Recharging)
+                {
+                    if (runes[i].Timer > highestRecharge)
+                    {
+                        highestRecharge = (int)runes[i].Timer;
+                        highestIndex = i;
+                    }
+                }
+            }
+            if (highestIndex != -1)
+            {
+                runes[highestIndex].State = Rune.RuneState.Ready;
+                runes[highestIndex].Timer = 0.0f;
+        }
+        }
     }
 }
 
