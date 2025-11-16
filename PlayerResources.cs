@@ -1,4 +1,4 @@
-namespace FrostDKRotation;
+namespace FrostDKRotation.PlayerResource;
 
 
 
@@ -40,9 +40,10 @@ public class PlayerResource
         }
     }
 
-    public void SpendRunes(int amount)
+
+    public bool CanSpendRunes(int amount)
     {
-        if (amount <= 0) return;
+        if (amount <= 0) return false;
 
         int runescount = 0;
         for (int i = 0; i < MaxRunes; i++)
@@ -52,7 +53,12 @@ public class PlayerResource
         }
 
         if (runescount < amount)
-            return; // Not enough runes to spend
+            return false; 
+    }
+
+    public void SpendRunes(int amount)
+    {
+
 
         int spent = 0;
         for (int i = 0; i < MaxRunes && spent < amount; i++)
@@ -137,11 +143,19 @@ public class PlayerResource
         }
     }
 
-    private void RunicPowerSpend(int amount)
-    {
-        if (amount <= 0) return;
-        if (RunicPower < amount) return;
 
+    public bool CanSpendRunicPower(int amount)
+    {
+        if (amount <= 0) return false;
+
+        if (RunicPower < amount)
+            return false; 
+
+        return true;
+    }
+
+    private void SpendRunicPower(int amount)
+    {
         RunicPower -= amount;
 
         double pPerRp = 0.018;
@@ -152,10 +166,10 @@ public class PlayerResource
 
         if (rng.NextDouble() < procChance)
         {
-            RegenerateOneRuneFromProc();
+            RunicEmpowerment();
         }
     }
-    private void RegenerateOneRuneFromProc()
+    private void RunicEmpowerment()
     {
         int RuneSwitch = -1;
         for (int i = 0; i < MaxRunes; i++)
